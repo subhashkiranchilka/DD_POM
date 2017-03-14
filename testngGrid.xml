@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Guru 99 bank suite" parallel="tests" thread-count="2">
+
+   <listeners>
+       <listener class-name ="com.guru99bank.libraries.TestListenerAdapter" />
+   </listeners>
+  
+  <test name="Test_firefox">
+  <!-- if we want to run the same tests in multiple browsers we need to pass this parameter -->
+  		<parameter name="browser" value="firefox"></parameter>
+   
+    <classes>
+       <class name="com.guru99bank.testcases.TestLogin_BlankData"/>
+       <class name="com.guru99bank.testcases.TestLogin_Valid"/>
+   	   <class name="com.guru99bank.testcases.TestAddNewCustomer"/>
+       <class name="com.guru99bank.testcases.TestLogin_InValidData"/>
+    </classes>
+  </test> <!-- Test -->
+    
+        
+    <!-- this suite is to run on chrome browser -->
+   <test name="Test_chrome">
+   		<parameter name="browser" value="chrome"></parameter>
+  
+    <classes>
+       <class name="com.guru99bank.testcases.TestLogin_BlankData"/>
+       <class name="com.guru99bank.testcases.TestLogin_Valid"/>
+   	   <class name="com.guru99bank.testcases.TestAddNewCustomer"/>
+       <class name="com.guru99bank.testcases.TestLogin_InValidData"/>
+    </classes>
+  </test>
+   
+   <!-- this suite is to run on IEBrowser browser -->
+   <test name="Test_IExplore">
+   		<parameter name="browser" value="iexplore"></parameter>
+  
+    <classes>
+       <class name="com.guru99bank.testcases.TestLogin_BlankData"/>
+       <class name="com.guru99bank.testcases.TestLogin_Valid"/>
+   	   <class name="com.guru99bank.testcases.TestAddNewCustomer"/>
+       <class name="com.guru99bank.testcases.TestLogin_InValidData"/>
+    </classes>
+  </test>
+  
+<!-- to start the forefox and chrome nodes we should run these commands from command prompt before running the suite, 
+  	java -Dwebdriver.chrome.driver=D:\Selenium\chrome\chromedriver.exe -jar selenium-server-standalone-3.0.1.jar -role webdriver -hub http://localhost:4444/grid/register -port 6666 -browser browserName=chrome
+
+	java -Dwebdriver.gecko.driver=D:\Selenium\geckodriver-v0.14.0-win64\geckodriver.exe -jar selenium-server-standalone-3.0.1.jar -role webdriver -hub http://localhost:4444/grid/register -port 5555 -browser browserName=firefox 
+-->
+  
+  
+  
+</suite> <!-- Suite -->
