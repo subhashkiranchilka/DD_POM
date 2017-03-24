@@ -54,8 +54,23 @@
     	<artifactId>mail</artifactId>
     	<version>1.4</version>
 	</dependency>
+	<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+   <dependency>
+    	<groupId>mysql</groupId>
+    	<artifactId>mysql-connector-java</artifactId>
+    	<version>5.1.6</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/net.sourceforge.jtds/jtds -->
+	<dependency>
+	    <groupId>net.sourceforge.jtds</groupId>
+	    <artifactId>jtds</artifactId>
+	    <version>1.3.1</version>
+	</dependency>
+    
 	
-	</dependencies>
+	
+</dependencies>
+
 	<properties>
     	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   	</properties>
@@ -72,13 +87,12 @@
 				<suitexmlfile>testng.xml</suitexmlfile>
 				
 			</suitexmlfiles>
-	
-	
-		</configuration>
+	    </configuration>
 	
 	</plugin>
     
-        <!-- <plugin>
+  
+      <!-- <plugin>
         <artifactId>maven-antrun-plugin</artifactId>
         <version>1.7</version>
         <executions>

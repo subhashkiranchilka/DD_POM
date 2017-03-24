@@ -28,13 +28,11 @@ public class Config {
 	//Excell file path                   D:/workspace/Guru99BankMavenProject/src/test/java/XLFiles/Guru99BankTestData.xlsx
 	public static final String xlPath = System.getProperty("user.dir")+"/src/test/java/XLFiles/Guru99BankTestData.xlsx";
 	
-	// Expected output
-//	public static final String EXPECT_TITLE = "Guru99 Bank Manager HomePage";
-//	public static final BasePage basePage = null;
 	
+	// for Test report mailing configuration we can use the below parameters
 	public static String server="smtp.gmail.com";
-	public static String from = "w2aispg@gmail.com";
-	public static String dbpassword = "Ispg$123";
+	public static String frommailid = "w2aispg@gmail.com";
+	public static String mailpassword = "Ispg$123";
 	public static String[] to ={"seleniumcoaching@gmail.com","trainer@way2automation.com"};
 	public static String subject = "Test Report";
 	
@@ -43,9 +41,10 @@ public class Config {
 	public static String attachmentName="Error.jpeg";
 	
 	
+	//For Database connection configuration
 	
 	//SQL DATABASE DETAILS	
-	public static String DBdriver="net.sourceforge.jtds.jdbc.Driver"; 
+	public static String sqldriver="net.sourceforge.jtds.jdbc.Driver"; 
 	public static String dbConnectionUrl="jdbc:jtds:sqlserver://192.101.44.22;DatabaseName=monitor_eval"; 
 	public static String dbUserName="sa"; 
 	public static String dbPassword="$ql$!!1"; 
@@ -54,7 +53,7 @@ public class Config {
 	//MYSQL DATABASE DETAILS
 	public static String mysqldriver="com.mysql.jdbc.Driver";
 	public static String mysqluserName = "root";
-	public static String mysqlpassword = "selenium";
-	public static String mysqlurl = "jdbc:mysql://localhost:3306/gaurav";
+	public static String mysqlpassword = "subbuSK%62";
+	public static String mysqlurl = "jdbc:mysql://localhost:3306/test_database";
 
 }

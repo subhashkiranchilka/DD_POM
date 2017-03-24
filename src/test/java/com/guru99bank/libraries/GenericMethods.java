@@ -1,6 +1,12 @@
 package com.guru99bank.libraries;
 
 
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.Toolkit;
+import java.awt.datatransfer.StringSelection;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
@@ -15,9 +21,12 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
+import com.google.common.base.Verify;
+import com.guru99bank.testcases.SauceLabsSuperTestNG;
 import com.guru99bank.testcases.SuperTestNG;
 
-public class GenericMethods extends SuperTestNG{
+public class GenericMethods extends SuperTestNG
+{
 	
 		
 	/*//public static WebDriver driver;
@@ -39,6 +48,7 @@ public class GenericMethods extends SuperTestNG{
 		try{
 		
 			Assert.assertEquals(aTitle,eTitle);
+			
 			System.out.println(aTitle+" Title MATCHED with "+eTitle);
 			
 		}catch(Throwable t){
@@ -119,7 +129,7 @@ public class GenericMethods extends SuperTestNG{
 /* **********	Utility methods ****************** */
 	
 	//Reading data from excel file 
-	public static Object[][] getData(String sheetname){
+	public  Object[][] getData(String sheetname){
 		
 		excel = new Xls_Reader(Config.xlPath);
 		int rowc = excel.getRowCount(sheetname);
@@ -177,6 +187,73 @@ public class GenericMethods extends SuperTestNG{
 		
 		
 	}
+	
+	
+	//for downloading file into local system.
+	
+	public static Robot robot;
+	public static void downloadFile() throws AWTException{
+		
+		robot = new Robot();
+		
+		if(Config.BROSER_NAME.equalsIgnoreCase("firefox")){
+			
+	//		robot.keyPress(KeyEvent.VK_CONTROL);
+			robot.keyPress(KeyEvent.VK_TAB);
+			robot.keyRelease(KeyEvent.VK_TAB);
+						
+			robot.keyPress(KeyEvent.VK_ENTER);
+			robot.keyRelease(KeyEvent.VK_ENTER);
+			
+			robot.keyPress(KeyEvent.VK_ENTER);
+			robot.keyRelease(KeyEvent.VK_ENTER);
+		}else if(Config.BROSER_NAME.equalsIgnoreCase("chrome")){
+			
+			robot.keyPress(KeyEvent.VK_ENTER);
+			robot.keyRelease(KeyEvent.VK_ENTER);
+		}
+    }
+		
+	// for uploading a file
+	public static void uploadFile(String filepath){
+		 StringSelection file=new StringSelection(filepath);
+	     Toolkit.getDefaultToolkit().getSystemClipboard().setContents(file, null);
+	     
+	     robot.keyPress(KeyEvent.VK_CONTROL);
+	     robot.keyPress(KeyEvent.VK_V);
+	
+	     robot.keyRelease(KeyEvent.VK_CONTROL);
+	     robot.keyRelease(KeyEvent.VK_V);
+	    // Thread.sleep(3000);
+	     robot.keyPress(KeyEvent.VK_ENTER);
+	     robot.keyRelease(KeyEvent.VK_ENTER);
+	}
+ 
+	// for accepting window popup
+	public static void windowPopUpAccepting(){
+		 robot.keyPress(KeyEvent.VK_ENTER);
+	     robot.keyRelease(KeyEvent.VK_ENTER);
+	 }
+	 
+	// for cancealing window popup
+	 public static void widowPopUpCanceling(){
+		 robot.keyPress(KeyEvent.VK_CANCEL);
+	     robot.keyRelease(KeyEvent.VK_CANCEL);
+	 }
+	 
+	 // for mouse movements on windows applications
+	 public static void mouseMoveOnWindowPopUp(){
+		 	robot.mouseMove(630, 420); // move mouse point to specific location	630, 420 are x and y coordinates
+	        robot.delay(1500);        // delay is to make code wait for mentioned milliseconds before executing next step	
+	        robot.mousePress(InputEvent.BUTTON1_DOWN_MASK); // press left click	
+	        robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK); // release left click	
+	        robot.delay(1500);	
+	        robot.keyPress(KeyEvent.VK_DOWN); // press keyboard arrow key to select Save radio button	
+	       robot.keyPress(KeyEvent.VK_ENTER);	
+	        // press enter key of keyboard to perform above selected action	
+	 }
+ 
+ 
 
 
 	

@@ -52,7 +52,7 @@ public class SuperTestNG{
 		generic=new GenericMethods();
 		loginPage = new LoginPage(driver);
 		
-		
+		// if we want to run the 
 		
 		
 		

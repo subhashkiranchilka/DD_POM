@@ -49,8 +49,8 @@ public class SauceLabsSuperTestNG {
 		
 		cap = DesiredCapabilities.firefox();
 		cap.setBrowserName("firefox"); // chrome,iexplore
-		cap.setCapability("version", 48);
-		cap.setCapability("platform", Platform.WINDOWS);
+		cap.setCapability("version", 52.0);
+		cap.setCapability("platform", Platform.WIN8);
 		
 		
 		
