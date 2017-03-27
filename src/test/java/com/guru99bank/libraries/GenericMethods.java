@@ -128,7 +128,7 @@ public class GenericMethods extends SuperTestNG
 	
 /* **********	Utility methods ****************** */
 	
-	//Reading data from excel file 
+	//Reading data from excel file using dataProviders
 	public  Object[][] getData(String sheetname){
 		
 		excel = new Xls_Reader(Config.xlPath);

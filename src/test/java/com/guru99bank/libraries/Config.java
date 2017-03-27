@@ -31,9 +31,9 @@ public class Config {
 	
 	// for Test report mailing configuration we can use the below parameters
 	public static String server="smtp.gmail.com";
-	public static String frommailid = "w2aispg@gmail.com";
+	public static String frommailid = "subhashqa08@gmail.com";
 	public static String mailpassword = "Ispg$123";
-	public static String[] to ={"seleniumcoaching@gmail.com","trainer@way2automation.com"};
+	public static String[] to ={"subhashqa08@gmail.com","subhashkiranchilka@gmail.com"};
 	public static String subject = "Test Report";
 	
 	public static String messageBody ="TestMessage";
@@ -46,7 +46,7 @@ public class Config {
 	//SQL DATABASE DETAILS	
 	public static String sqldriver="net.sourceforge.jtds.jdbc.Driver"; 
 	public static String dbConnectionUrl="jdbc:jtds:sqlserver://192.101.44.22;DatabaseName=monitor_eval"; 
-	public static String dbUserName="sa"; 
+	public static String dbUserName="subhash";
 	public static String dbPassword="$ql$!!1"; 
 	
 	
