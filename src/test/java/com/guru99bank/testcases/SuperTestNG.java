@@ -2,6 +2,7 @@ package com.guru99bank.testcases;
 
 import java.util.concurrent.TimeUnit;
 
+import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -10,6 +11,8 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
+
+
 
 import com.guru99bank.libraries.GenericMethods;
 import com.guru99bank.libraries.Config;
@@ -24,6 +27,7 @@ public class SuperTestNG{
 	
 	public LoginPage loginPage;
 	public GenericMethods generic;
+	public static Logger app_logs= Logger.getLogger("devpinoyLogeer");
 	
 //	@BeforeSuite
 	@BeforeMethod
@@ -34,6 +38,9 @@ public class SuperTestNG{
 				System.setProperty("webdriver.gecko.driver", Config.GECKODRIVER_PATH);
 			//	generic=new GenericMethods();
 				driver=new FirefoxDriver();
+				
+			// this is how applogs will be generated.
+				app_logs.debug("opening the firefox browser");
 		
 			}else if(Config.BROSER_NAME.equalsIgnoreCase("IE")){
 			
