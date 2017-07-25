@@ -9,20 +9,26 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Random;
+import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
-import com.google.common.base.Verify;
-import com.guru99bank.testcases.SauceLabsSuperTestNG;
 import com.guru99bank.testcases.SuperTestNG;
 
 public class GenericMethods extends SuperTestNG
@@ -90,6 +96,8 @@ public class GenericMethods extends SuperTestNG
 		WebDriverWait wait = new WebDriverWait(driver, 3);
 			try{
 					if(wait.until(ExpectedConditions.alertIsPresent())!=null){
+					//	wait.until(ExpectedConditions.elementToBeSelected(element))
+						
 						System.out.println("Alert is present!");
 						Alert alert = driver.switchTo().alert();
 						System.out.println("Alert message is:"+alert.getText());
@@ -125,6 +133,33 @@ public class GenericMethods extends SuperTestNG
 		}
 	}
 	
+	public void waitForElementVisible(WebDriver driver, WebElement webelement){ 
+		try{
+			WebDriverWait wait = new WebDriverWait(driver, 30);
+			wait.until(ExpectedConditions.visibilityOf(webelement));
+						
+			System.out.println(webelement+": webelement is visible");
+		}catch(Throwable t){
+			System.out.println(webelement+" : webelement is not visible");
+			ErrorCollector.addVerificationFailure(t);			
+		}
+   }
+	
+	public void waitForElementClickable(WebDriver driver, WebElement webelement){
+		
+		try{
+			WebDriverWait wait = new WebDriverWait(driver, 30);
+			wait.until(ExpectedConditions.elementToBeClickable(webelement));
+			
+		}catch(Throwable t){
+			System.out.println(webelement+": Element is not clickable");
+			ErrorCollector.addVerificationFailure(t);	
+		}
+   }
+	
+	
+
+	
 	
 /* **********	Utility methods ****************** */
 	
@@ -137,6 +172,8 @@ public class GenericMethods extends SuperTestNG
 		int colc = excel.getColumnCount(sheetname);
 		
 		Object[][] data = new Object[rowc-1][colc];
+		System.out.println("Row Count : "+rowc);
+		System.out.println("Column count:"+colc);
 		
 		for(int rowNum = 2 ; rowNum <= rowc  ; rowNum++){ //2
 			
@@ -152,6 +189,180 @@ public class GenericMethods extends SuperTestNG
 	}
 	
 	
+	/* Setting Employee id with random number */
+	
+	public void setRandomNumber(String sheetname, String colName){
+		
+		excel = new Xls_Reader(Config.xlPath);
+		int rowc = excel.getRowCount(sheetname);
+		Random rand = new Random(); 
+		for(int rowNum=2;rowNum<=rowc;rowNum++){
+		int randomnumber = rand.nextInt(10000000);
+		 String randomdata =Integer.toString(randomnumber); 
+		excel.setCellData(sheetname, colName, rowNum, randomdata);
+		
+		}
+	
+	}
+	
+	// setting the excell sheet date to previous to previous sunday.
+	
+public void setDateinExcell(String sheetname, String colName){
+		
+		excel = new Xls_Reader(Config.xlPath);
+		int rowc = excel.getRowCount(sheetname);
+		String currentdate = GenericMethods.generateTimeStamp();
+		SimpleDateFormat dateformate = new SimpleDateFormat("dd/MM/yyyy");
+		Date date2=null;
+		
+		try{
+			date2=dateformate.parse(currentdate);
+		}catch(Exception e){
+			
+			System.out.println(e.getCause());
+		}
+		
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date2);
+		cal.add(Calendar.DAY_OF_WEEK,-(cal.get(Calendar.DAY_OF_WEEK)+6));
+		SimpleDateFormat dateformate1 = new SimpleDateFormat("dd/MM/yyyy");
+		String privoustopreviousSunday = dateformate1.format(cal.getTime());
+		System.out.println(privoustopreviousSunday);
+		
+		for(int rowNum=2;rowNum<=rowc;rowNum++){
+		excel.setCellData(sheetname, colName, rowNum, privoustopreviousSunday);
+		
+		}
+	
+	}
+
+public void setCurrentDateInExcell(String sheetname, String colName){
+	
+	excel = new Xls_Reader(Config.xlPath);
+	int rowc = excel.getRowCount(sheetname);
+	
+	
+	String CurrentDate = GenericMethods.generateTimeStamp();
+	
+	for(int rowNum=2;rowNum<=rowc;rowNum++){
+	excel.setCellData(sheetname, colName, rowNum, CurrentDate);
+	
+	}
+
+}
+	
+public void copyCellValueToSheet(String fromsheetname, String colName, String toSheetName){
+	
+		excel = new Xls_Reader(Config.xlPath);
+		int rowc = excel.getRowCount(fromsheetname);
+		for(int rowNum=2;rowNum<=rowc;rowNum++){
+		String cellValue =excel.getCellData(fromsheetname, colName, rowNum);
+		excel.setCellData(toSheetName, colName, rowNum, cellValue);
+	}
+		
+}
+
+
+public void dynamicXpathForEmpId(String empId) throws Exception {
+    try {
+        
+    	driver.findElement(By.xpath("//tr[td[text()='"+empId+"']]//th/a")).click();
+        
+    } catch (AssertionError Ae) {
+        Ae.printStackTrace();
+    }
+}
+
+public void dynamicXpathForDeptName(String DeptName) throws Exception {
+    try {
+    
+        driver.findElement(By.xpath("//tr[td[2]/span/a[text()='"+DeptName+"']]//input[@type='checkbox']")).click();
+     
+       } catch (AssertionError Ae) {
+        Ae.printStackTrace();
+    }
+}
+
+//Dynamic xpath for percentage field 
+
+public void dynamicXpathForPersentage(String DeptName,String percentage) throws Exception {
+  try {
+ 
+      driver.findElement(By.xpath("//tr[td[2]/span/a[text()='"+DeptName+"']]//input[@type='text']")).sendKeys(percentage);;
+  	
+     } catch (AssertionError Ae) {
+      Ae.printStackTrace();
+  }
+}
+
+public void switchToWindow(WebDriver driver){
+	String parentWindow = driver.getWindowHandle();
+	Set<String> handles =  driver.getWindowHandles();
+	   for(String windowHandle  : handles)
+	       {
+	       if(!windowHandle.equals(parentWindow))
+	          {
+	          driver.switchTo().window(windowHandle);
+	        // <!--Perform your operation here for new window-->
+	      //   driver.close(); //closing child window
+	      //   driver.switchTo().window(parentWindow); //cntrl to parent window
+	          }
+	       }
+	}
+
+public void waitForPageLoaded(WebDriver driver) {
+    ExpectedCondition<Boolean> expectation = new
+            ExpectedCondition<Boolean>() {
+                public Boolean apply(WebDriver driver) {
+                    return ((JavascriptExecutor) driver).executeScript("return document.readyState").toString().equals("complete");
+                }
+            };
+    try {
+        Thread.sleep(1000);
+        WebDriverWait wait = new WebDriverWait(driver, 30);
+        wait.until(expectation);
+    } catch (Throwable error) {
+        Assert.fail("Timeout waiting for Page Load Request to complete.");
+    }
+}
+
+
+public void waitForLoad(WebDriver driver) {
+    ExpectedCondition<Boolean> pageLoadCondition = new
+            ExpectedCondition<Boolean>() {
+                public Boolean apply(WebDriver driver) {
+                    return ((JavascriptExecutor)driver).executeScript("return document.readyState").equals("complete");
+                }
+            };
+    WebDriverWait wait = new WebDriverWait(driver, 30);
+    wait.until(pageLoadCondition);
+}
+
+public void checkPageIsReady() {
+	  
+	  JavascriptExecutor js = (JavascriptExecutor)driver;
+	  
+	  
+	  //Initially bellow given if condition will check ready state of page.
+	  if (js.executeScript("return document.readyState").toString().equals("complete")){ 
+	   System.out.println("Page Is loaded.");
+	   return; 
+	  } 
+	  
+	  //This loop will rotate for 25 times to check If page Is ready after every 1 second.
+	  //You can replace your value with 25 If you wants to Increase or decrease wait time.
+	  for (int i=0; i<30; i++){ 
+	   try {
+	    Thread.sleep(1000);
+	    }catch (InterruptedException e) {} 
+	   //To check page ready state.
+	   if (js.executeScript("return document.readyState").toString().equals("complete")){ 
+	    break; 
+	   }   
+	  }
+	 }
+
+		
 	// For Getting the current time stamp
 	public static String mailscreenshotpath;
 	public static String generateTimeStamp(){
@@ -164,7 +375,8 @@ public class GenericMethods extends SuperTestNG
 		  int date = cal.get(Calendar.DATE);
 		  int day =cal.get(Calendar.HOUR_OF_DAY);
 		
-		String timestamp = year+"_"+date+"_"+(month+1)+"_"+day+"_"+min+"_" +sec;
+		//String timestamp = year+"_"+date+"_"+(month+1)+"_"+day+"_"+min+"_" +sec;
+		  String timestamp = date+"/"+(month+1)+"/"+year;
 		return timestamp;
 	}
 
